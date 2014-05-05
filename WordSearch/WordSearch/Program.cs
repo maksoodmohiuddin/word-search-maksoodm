@@ -10,6 +10,7 @@ namespace WordSearch
 {
     class Program
     {
+        #region Main
         static void Main(string[] args)
         {
             try
@@ -62,22 +63,29 @@ namespace WordSearch
                     FindUp(wordSearchArray, wordList);
                 }
                   
-                // Find Diagonal Up left (DUL)
-                 if (wordList.Any())
+                // Find Diagonal Down left (DDL)
+                if (wordList.Any())
                 {
-                    FindDiagonalUpLeft(wordSearchArray, wordList);
+                    FindDiagonalDownLeft(wordSearchArray, wordList);                    
                 }
 
-                 // Find Diagonal Down Right (DDR)
+                // Find Diagonal Up Right (DUR)
+                if (wordList.Any())
+                {
+                    FindDiagonalUpRight(wordSearchArray, wordList);
+                }
+
+                // Find Diagonal down right (DDR)
                  if (wordList.Any())
                  {
                      FindDiagonalDownRight(wordSearchArray, wordList);
-                 }      
+                 }
 
-                // DUL - Diagonal up left
-                // DUR - Diagonal up right                
-                
-
+                 // Find Diagonal up left (DUL)
+                 if (wordList.Any())
+                 {
+                     FindDiagonalUpLeft(wordSearchArray, wordList);
+                 }                
             }
             catch (Exception ex)
             {
@@ -88,18 +96,20 @@ namespace WordSearch
             Console.Write("Press any key to exit");
             Console.ReadKey();
         }
+        #endregion 
 
         #region FindLeftToRight
         private static void FindLeftToRight(string[] wordSearchArray, List<string> wordList)
         {
             try
-            {
+            {               
                 // Keep track of words found in this method
                 var wordsFound = new List<string>();
 
+                // wordsearch by default is in left to right  
                 foreach (var wordSearchLine in wordSearchArray)
                 {
-                    // wordsearch by default is in left to right so don't have to do anything here               
+                                
                     foreach (var wordToFind in wordList)
                     {
                         if (wordSearchLine.Contains(wordToFind))
@@ -135,7 +145,8 @@ namespace WordSearch
                 foreach (var wordSeachLine in wordSearchArray)
                 {
                     // reverse the word to get Right to Left content 
-                    string wordSeachLineReversed = new string(wordSeachLine.ToCharArray().Reverse().ToArray());                   
+                    string wordSeachLineReversed = new string(wordSeachLine.ToCharArray().Reverse().ToArray());    
+               
                     foreach (var wordToFind in wordList)
                     {
                         if (wordSeachLineReversed.Contains(wordToFind))
@@ -154,7 +165,7 @@ namespace WordSearch
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in FindLeftToRight" + ex.ToString());
+                Console.WriteLine("Error in FindRightToLeft" + ex.ToString());
             }
 
         }
@@ -165,9 +176,9 @@ namespace WordSearch
         {
             try
             {
-                // re-organize the wordSearchArray to facilitate Find Up
+                // re-organize the original contents to facilitate Find Down
                 var wordSearchArrayForDown = new StringBuilder[wordSearchArray.Length];
-                // initilize all 
+                // initialize all 
                 for (int i = 0; i < wordSearchArray.Length; i++)
                 {
                     wordSearchArrayForDown[i] = new StringBuilder();
@@ -188,8 +199,7 @@ namespace WordSearch
                 var wordsFound = new List<string>();
 
                 foreach (var wordSearchLine in wordSearchArrayForDown)
-                {
-                    // wordsearch by default is in left to right so don't have to do anything here               
+                {                                
                     foreach (var wordToFind in wordList)
                     {
                         if (wordSearchLine.ToString().Contains(wordToFind))
@@ -208,7 +218,7 @@ namespace WordSearch
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in FindLeftToRight" + ex.ToString());
+                Console.WriteLine("Error in FindDown" + ex.ToString());
             }
 
         }
@@ -242,8 +252,7 @@ namespace WordSearch
                 var wordsFound = new List<string>();
 
                 foreach (var wordSearchLine in wordSearchArrayForUp)
-                {
-                    // wordsearch by default is in left to right so don't have to do anything here               
+                {           
                     foreach (var wordToFind in wordList)
                     {
                         if (wordSearchLine.ToString().Contains(wordToFind))
@@ -262,7 +271,182 @@ namespace WordSearch
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in FindLeftToRight" + ex.ToString());
+                Console.WriteLine("Error in FindUp" + ex.ToString());
+            }
+
+        }
+        #endregion 
+
+        #region FindDiagonalDownLeft
+        private static void FindDiagonalDownLeft(string[] wordSearchArray, List<string> wordList)
+        {
+            try
+            {
+                // re-organize the wordSearchArray to facilitate Find Diagonal Down Left
+                var wordSearchArrayForDiagonalDownLeft = new StringBuilder[wordSearchArray.Length];
+                // initialize all 
+                for (int i = 0; i < wordSearchArray.Length; i++)
+                {
+                    wordSearchArrayForDiagonalDownLeft[i] = new StringBuilder();
+                }
+
+                for (int i = 0; i < wordSearchArray.Length; i++)
+                {
+                    var wordSearchCharArray = wordSearchArray[i].ToCharArray();
+
+                    // take each char out and build the modified array, like putting stuffs in slots
+                    for (int j = 0; j < wordSearchCharArray.Length; j++)
+                    {
+                        //  Diagonal will have imcremental pick up, also need to have check so we don't get array index out of bound
+                        if ((j + i) < wordSearchCharArray.Length)
+                        {
+                            wordSearchArrayForDiagonalDownLeft[j].Append(wordSearchCharArray[j + i].ToString());
+                        }
+                    }
+                }
+
+                // Keep track of words found in this method
+                var wordsFound = new List<string>();
+
+                foreach (var wordSearchLine in wordSearchArrayForDiagonalDownLeft)
+                {
+                    // wordsearch by default is in left to right so don't have to do anything here               
+                    foreach (var wordToFind in wordList)
+                    {
+                        if (wordSearchLine.ToString().Contains(wordToFind))
+                        {
+                            Console.WriteLine(wordToFind + " found in DDL");
+                            wordsFound.Add(wordToFind);
+                        }
+                    }
+                }
+
+                // remove words found from the word list
+                foreach (var wordToBeRemoved in wordsFound)
+                {
+                    wordList.Remove(wordToBeRemoved);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in FindDiagonalDownLeft" + ex.ToString());
+            }
+
+        }
+        #endregion 
+
+        #region FindDiagonalUpRight
+        private static void FindDiagonalUpRight(string[] wordSearchArray, List<string> wordList)
+        {
+            try
+            {
+                // re-organize the wordSearchArray to facilitate Find Diagonal Up Right  
+                var wordSearchArrayForDiagonalUpRight = new StringBuilder[wordSearchArray.Length];
+                // initialize all 
+                for (int i = 0; i < wordSearchArray.Length; i++)
+                {
+                    wordSearchArrayForDiagonalUpRight[i] = new StringBuilder();
+                }
+
+                for (int i = wordSearchArray.Length - 1; i >= 0; i--)
+                {
+                    var wordSearchCharArray = wordSearchArray[i].ToCharArray();
+
+                    // take each char out and build the modified array, like putting stuffs in slots
+                    for (int j = 0; j < wordSearchCharArray.Length; j++)
+                    {
+                        //  Diagonal will have imcremental pick up, also need to have check so we don't get array index out of bound
+                        if ((j + i) < wordSearchCharArray.Length)
+                        {
+                            wordSearchArrayForDiagonalUpRight[j].Append(wordSearchCharArray[j + i].ToString());
+                        }
+                    }
+                }
+
+                // Keep track of words found in this method
+                var wordsFound = new List<string>();
+
+                foreach (var wordSearchLine in wordSearchArrayForDiagonalUpRight)
+                {
+                    // wordsearch by default is in left to right so don't have to do anything here               
+                    foreach (var wordToFind in wordList)
+                    {
+                        if (wordSearchLine.ToString().Contains(wordToFind))
+                        {
+                            Console.WriteLine(wordToFind + " found in DUR");
+                            wordsFound.Add(wordToFind);
+                        }
+                    }
+                }
+
+                // remove words found from the word list
+                foreach (var wordToBeRemoved in wordsFound)
+                {
+                    wordList.Remove(wordToBeRemoved);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in FindDiagonalUpRight" + ex.ToString());
+            }
+
+        }
+        #endregion 
+
+        #region FindDiagonalDownRight
+        private static void FindDiagonalDownRight(string[] wordSearchArray, List<string> wordList)
+        {
+            try
+            {
+                // re-organize the wordSearchArray to facilitate Find Diagonal Down Right
+                var wordSearchArrayForDiagonalDownRight = new StringBuilder[wordSearchArray.Length];
+                // initialize all 
+                for (int i = 0; i < wordSearchArray.Length; i++)
+                {
+                    wordSearchArrayForDiagonalDownRight[i] = new StringBuilder();
+                }
+
+                for (int i = 0; i < wordSearchArray.Length; i++)
+                {
+                    // reverse the word to get Right to Left content 
+                    var wordSearchCharArray = wordSearchArray[i].ToCharArray().Reverse().ToArray();
+
+                    // take each char out and build the modified array, like putting stuffs in slots
+                    for (int j = wordSearchCharArray.Length - 1; j >= 0; j--)
+                    {
+                        //  Diagonal will have imcremental pick up, also need to have check so we don't get array index out of bound
+                        if ((j + i) < wordSearchCharArray.Length)
+                        {
+                            wordSearchArrayForDiagonalDownRight[j].Append(wordSearchCharArray[j + i].ToString());
+                        }
+                    }
+                }
+
+                // Keep track of words found in this method
+                var wordsFound = new List<string>();
+
+                foreach (var wordSearchLine in wordSearchArrayForDiagonalDownRight)
+                {
+                    // wordsearch by default is in left to right so don't have to do anything here               
+                    foreach (var wordToFind in wordList)
+                    {
+                        if (wordSearchLine.ToString().Contains(wordToFind))
+                        {
+                            Console.WriteLine(wordToFind + " found in DDR");
+                            wordsFound.Add(wordToFind);
+                        }
+                    }
+                }
+
+                // remove words found from the word list
+                foreach (var wordToBeRemoved in wordsFound)
+                {
+                    wordList.Remove(wordToBeRemoved);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in FindDiagonalDownRight" + ex.ToString());
             }
 
         }
@@ -273,7 +457,7 @@ namespace WordSearch
         {
             try
             {
-                // re-organize the wordSearchArray to facilitate Find Diagonal Down Left
+                // re-organize the wordSearchArray to facilitate Find Diagonal Up Left
                 var wordSearchArrayForDiagonalUpLeft = new StringBuilder[wordSearchArray.Length];
                 // initialize all 
                 for (int i = 0; i < wordSearchArray.Length; i++)
@@ -281,7 +465,7 @@ namespace WordSearch
                     wordSearchArrayForDiagonalUpLeft[i] = new StringBuilder();
                 }
 
-                for (int i = 0; i < wordSearchArray.Length; i++)
+                for (int i = wordSearchArray.Length -1 ; i >= 0; i--)
                 {
                     var wordSearchCharArray = wordSearchArray[i].ToCharArray();
 
@@ -320,68 +504,10 @@ namespace WordSearch
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in FindLeftToRight" + ex.ToString());
+                Console.WriteLine("Error in FindDiagonalUpLeft" + ex.ToString());
             }
 
         }
-        #endregion 
-
-        #region FindDiagonalDownRight
-        private static void FindDiagonalDownRight(string[] wordSearchArray, List<string> wordList)
-        {
-            try
-            {
-                // re-organize the wordSearchArray to facilitate Find Diagonal Down Left
-                var wordSearchArrayForDiagonalDownRight = new StringBuilder[wordSearchArray.Length];
-                // initialize all 
-                for (int i = 0; i < wordSearchArray.Length; i++)
-                {
-                    wordSearchArrayForDiagonalDownRight[i] = new StringBuilder();
-                }
-
-                for (int i = wordSearchArray.Length - 1; i >= 0; i--)
-                {
-                    var wordSearchCharArray = wordSearchArray[i].ToCharArray();
-
-                    // take each char out and build the modified array, like putting stuffs in slots
-                    for (int j = 0; j < wordSearchCharArray.Length; j++)
-                    {
-                        //  Diagonal will have imcremental pick up, also need to have check so we don't get array index out of bound
-                        if ((j + i) < wordSearchCharArray.Length)
-                        {
-                            wordSearchArrayForDiagonalDownRight[j].Append(wordSearchCharArray[j + i].ToString());
-                        }
-                    }
-                }
-
-                // Keep track of words found in this method
-                var wordsFound = new List<string>();
-
-                foreach (var wordSearchLine in wordSearchArrayForDiagonalDownRight)
-                {
-                    // wordsearch by default is in left to right so don't have to do anything here               
-                    foreach (var wordToFind in wordList)
-                    {
-                        if (wordSearchLine.ToString().Contains(wordToFind))
-                        {
-                            Console.WriteLine(wordToFind + " found in DDR");
-                            wordsFound.Add(wordToFind);
-                        }
-                    }
-                }
-
-                // remove words found from the word list
-                foreach (var wordToBeRemoved in wordsFound)
-                {
-                    wordList.Remove(wordToBeRemoved);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error in FindLeftToRight" + ex.ToString());
-            }
-
-        }
-        #endregion 
+        #endregion         
     }
 }
