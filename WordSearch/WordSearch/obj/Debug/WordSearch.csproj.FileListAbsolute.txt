@@ -1,1 +1,7 @@
 C:\Development\Prototypes\WordSearch\WordSearch\bin\Debug\WordSearch.exe.config
+C:\Users\mmohiuddin\Documents\GitHub\word-search-maksoodm\WordSearch\WordSearch\bin\Debug\WordSearch.exe.config
+C:\Users\mmohiuddin\Documents\GitHub\word-search-maksoodm\WordSearch\WordSearch\bin\Debug\WordSearch.exe
+C:\Users\mmohiuddin\Documents\GitHub\word-search-maksoodm\WordSearch\WordSearch\bin\Debug\WordSearch.pdb
+C:\Users\mmohiuddin\Documents\GitHub\word-search-maksoodm\WordSearch\WordSearch\obj\Debug\WordSearch.csprojResolveAssemblyReference.cache
+C:\Users\mmohiuddin\Documents\GitHub\word-search-maksoodm\WordSearch\WordSearch\obj\Debug\WordSearch.exe
+C:\Users\mmohiuddin\Documents\GitHub\word-search-maksoodm\WordSearch\WordSearch\obj\Debug\WordSearch.pdb
