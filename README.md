@@ -39,7 +39,6 @@ CAEASPTLTAIPONRNDU
 SNFIREWALLWREIKOOC
 TFDPRDHTOOTEULBYTE
 
-
 Content of WordList.txt:
 Application
 Backup
@@ -149,9 +148,7 @@ DOS found in DDR
 SPAM found in DDR
 DISKDRIVE found in DDR
 
-
 WordSearch could not found the following word(s):
 WIRELESS
-
 
 Press any key to exit
